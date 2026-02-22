@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perfil Freelancer - Dilan Steve Rebolledo Vasquez</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Theme Toggle Button -->
+    <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme">
+      <span class="theme-icon">🌙</span>
+    </button>
+
+    <!-- Business Card -->
+    <div class="card" id="businessCard">
+      <!-- Header Section -->
+      <div class="card-header">
+        <div class="avatar">
+          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAK8AAACUCAMAAADS8YkpAAAAPFBMVEXl5uivtLirsLTKz9PDyMzm5uattLro6ezl5uq6vsHj5+ivsrfi4+Xj5+rO0dPh4ubW2t61ub7b3t/BwsfeZPPVAAADZElEQVR4nO2bi27rIAxAeYQ4JOGV/v+/3pBmry5NoYWae6+PpmmqtO3IMsYQhzGCIAiCIAiCIAiCIAiCIN6BMebgU6UYG97ukgoMbvbeRrx3xgC20Ckwe6nDJK7woKVv2BgGqbngfOpX+IYI2rZqPFguds2fWGAKW+6GkQ0+iCPZLcge2+8WxeQdWc57PnGJLXjDcLmrG5mm7qjUoQH8Xi585gRvqAY7fa4by4XQDlvzysjY5VF0twjrGVv1CsgU3VVYNlGIwafprsK+hUU3hxTXKX4LM/aiUwq61PCudIC70RkGS1J4d8KCvjHnhHddcti6Lie8MYORff1xS3Y3wMidDzzY2X75atwaDHm6qzCqL7hs3xlTGOyU62tRfbOq2UaH6nveph8RFxzargyafMn3RV/Eluep9Ybp2+XWXy5RfW32/mYxfU3+fuwGRN8xq9+JuYPb7+RtyNEXdTteK2nyYX5PB+R+fXBZulPAvpQaZFZFQz9v5h04GzjP56w4gbzaNkxGeFu4P4MlObxtPMaIGdEn3EKIDvu2b8dcki5NWrmvXoUTbk2EbiF5d7ZrntMYTxpGbMsvwHXiNIXFxSFf/f5EsdNOWMhGltoHioEP03RQJ+InwTewT9ximNVHdUJoOZqWcuETmFfjn2khhLauweCymBKjGqLyN91Vdmhqnf0GAGZvpbTWu/VnbJ0U4ANskVSUUm0nAUFE/rZEhe0r71fQqgaAi4W2y0FK72cMZQVO6rDtuDnETS9o6d4+QeeDyL76/d4DvfPoufU1L9jGeam1D3rXcQ68FrxPORGf+G4xfkseg/38n6/EOFL92WystpkTBGcIvf7Nseo5dCmoG4WXqqd8s9wdmn1SOCzVTqIq93Y6DVdLWDH38gq7pe8nXq+uJc115iIulQJssodJErF1hDMfBSUzTb5GNwF5k3EZiArPwFX62OwTwuV3ZmXyRx3S0cXju3cNtSjfSXQv9GOP6PuutO4SqvqWfk5rEmfqn0XYUZUcQ3rw/srrvl3ZK+KhWvHdCabonjHXTYc4t1rSt+ZmsfsW3ZNTX2F5wbfoyy/QVdYtPNgDl0qt5BeX/9pX512TPUHRFwfAytqU7XiGxp7//msYY+qOL8QHCw0NSBAEQRAEQRAEQRAEQRCV+AOaqSgUBbBIVwAAAABJRU5ErkJggg==" alt="Profile Avatar" id="avatarImg">
+        </div>
+        <div class="header-info">
+          <h1 id="userName">Loading...</h1>
+          <p class="location" id="userLocation">📍 Loading...</p>
+        </div>
+      </div>
+
+      <!-- Bio Section -->
+      <div class="card-section">
+        <h2>About Me</h2>
+        <p id="userBio" class="bio">Loading...</p>
+      </div>
+
+      <!-- Contact Section -->
+      <div class="card-section">
+        <h2>Contact</h2>
+        <div class="contact-info">
+          <div class="contact-item">
+            <span class="icon">📧</span>
+            <span id="userEmail">Loading...</span>
+            <button id="copyEmailBtn" class="btn btn-small">Copy</button>
+          </div>
+          <div class="contact-item">
+            <span class="icon">📱</span>
+            <span id="userPhone">Loading...</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Skills Section -->
+      <div class="card-section">
+        <h2>Skills</h2>
+        <div id="skillsList" class="skills-list">
+          Loading...
+        </div>
+        <button id="toggleSkills" class="btn btn-secondary">Show More</button>
+      </div>
+
+      <!-- Social Media Section -->
+      <div class="card-section">
+        <h2>Connect</h2>
+        <div id="socialLinks" class="social-links">
+          Loading...
+        </div>
+      </div>
+
+      <!-- Statistics Section -->
+      <div class="card-section">
+        <h2>Statistics</h2>
+        <div id="stats" class="stats-grid">
+          Loading...
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>Built with ❤️ using ES2023 JavaScript</p>
+      <p class="small">Week 01 Project - Dilan Steve Rebolledo Vasquez</p>
+    </footer>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast">
+    <span id="toastMessage"></span>
+  </div>
+
+  <script src="starter/script.js"></script>
+</body>
+</html>
