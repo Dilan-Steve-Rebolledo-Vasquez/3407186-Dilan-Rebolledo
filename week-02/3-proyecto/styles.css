@@ -8,10 +8,10 @@
   --color-success: #10b981;
   --color-warning: #f59e0b;
   --color-danger: #ef4444;
-  --color-dark: #1f2937;
+  --color-dark: #1a1e22;
   --color-gray: #6b7280;
-  --color-light: #f3f4f6;
-  --color-white: #ffffff;
+  --color-light: #3c3f45;
+  --color-white: #d2c7c7e0;
 
   --priority-high: #ef4444;
   --priority-medium: #f59e0b;
@@ -34,10 +34,10 @@
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #222224 0%, #222224 100%);
   min-height: 100vh;
   padding: 2rem 1rem;
-  color: var(--color-dark);
+  color: var(--color-white);
 }
 
 /* ===================================
@@ -76,12 +76,12 @@ body {
 }
 
 .stat {
-  color: var(--color-gray);
+  color: var(--color-dark);
   font-size: 0.95rem;
 }
 
 .stat strong {
-  color: var(--color-primary);
+  color: var(--color-hiddy);
   font-size: 1.25rem;
   margin-left: 0.25rem;
 }
@@ -132,7 +132,7 @@ body {
 .task-form textarea:focus,
 .task-form select:focus {
   outline: none;
-  border-color: var(--color-primary);
+  border-color: var(--color-hiddeny);
 }
 
 .task-form textarea {
@@ -168,7 +168,7 @@ body {
 
 .btn-primary {
   background: var(--color-primary);
-  color: var(--color-white);
+  color: var(#ffffffe0);
 }
 
 .btn-primary:hover {
@@ -178,25 +178,27 @@ body {
 }
 
 .btn-secondary {
-  background: var(--color-gray);
-  color: var(--color-white);
+  background: var(--priority-high);
+  color: var(#ffffffe0);
 }
 
 .btn-secondary:hover {
-  background: #4b5563;
+  background: #ef4444;
+  transform: translateY(-1px);
 }
 
 .btn-outline {
-  background: transparent;
+  background: var(--color-danger);
   border: 2px solid var(--color-danger);
-  color: var(--color-danger);
+  color: var(#ffffffe0);
   padding: 0.5rem 1rem;
   font-size: 0.9rem;
+  margin-bottom: 15px;
 }
 
 .btn-outline:hover {
   background: var(--color-danger);
-  color: var(--color-white);
+  color: var(#ffffffe0);
 }
 
 .btn-sm {
@@ -214,6 +216,7 @@ body {
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-lg);
   margin-bottom: 2rem;
+  margin-top: 15px;
 }
 
 .filters {
@@ -255,7 +258,7 @@ body {
   padding: 2rem;
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-lg);
-  margin-bottom: 2rem;
+  margin-bottom: 20rem;
 }
 
 .tasks-header {

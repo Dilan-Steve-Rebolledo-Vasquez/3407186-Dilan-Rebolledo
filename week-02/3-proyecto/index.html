@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- TODO: Cambia el título según tu dominio -->
-  <title>Gestor de Colección | Tu Dominio</title>
+  <title>Plataforma de Freelancers</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -30,20 +30,19 @@
     <!-- Header -->
     <header class="header">
       <!-- TODO: Cambia el título y emoji según tu dominio -->
-      <h1>📦 Gestor de Colección</h1>
-      <p class="subtitle">Adaptado a tu dominio asignado</p>
+      <h1>🧠 Plataforma de Freelancers</h1>
       <div class="stats-summary" id="stats-summary">
-        <span class="stat">Total: <strong id="stat-total">0</strong></span>
+        <span class="stat">Total de Freelancers: <strong id="stat-total">0</strong></span>
         <!-- TODO: Cambia "Activos/Inactivos" por términos de tu dominio -->
-        <span class="stat">Activos: <strong id="stat-active">0</strong></span>
-        <span class="stat">Inactivos: <strong id="stat-inactive">0</strong></span>
+        <span class="stat">Freelancers Activos: <strong id="stat-active">0</strong></span>
+        <span class="stat">Freelancers Inactivos: <strong id="stat-inactive">0</strong></span>
       </div>
     </header>
 
     <!-- Item Form -->
     <section class="form-section">
       <!-- TODO: Cambia "Elemento" por tu entidad -->
-      <h2 id="form-title">➕ Nuevo Elemento</h2>
+      <h2 id="form-title">➕ Nuevo Proyecto</h2>
       <form id="item-form" class="item-form">
         <input type="hidden" id="item-id" value="">
 
@@ -78,9 +77,9 @@
                 <option value="star">⭐ Estrella</option>
                 <option value="asteroid">☄️ Asteroide</option>
               -->
-              <option value="category1">🔹 Categoría 1</option>
-              <option value="category2">🔸 Categoría 2</option>
-              <option value="category3">🔷 Categoría 3</option>
+              <option value="web">🌏 Desarrollo Web</option>
+              <option value="mobile">📱Desarrollo Movil</option>
+              <option value="desing">🖌️ Diseño</option>
               <option value="other">📌 Otro</option>
             </select>
           </div>
@@ -89,9 +88,9 @@
             <!-- TODO: Opcionalmente renombra "Prioridad" según tu dominio -->
             <label for="item-priority">Prioridad/Nivel</label>
             <select id="item-priority">
-              <option value="low">🟢 Baja</option>
-              <option value="medium" selected>🟡 Media</option>
-              <option value="high">🔴 Alta</option>
+              <option value="low">🟩 Baja</option>
+              <option value="medium" selected>🟨 Media</option>
+              <option value="high">🟥 Alta</option>
             </select>
           </div>
         </div>
@@ -104,14 +103,39 @@
             <input type="number" id="item-magnitude" step="0.1">
           </div>
         -->
-
+<div class="form-group">
+  <label for="item-payment">Método de pago</label>
+  <select id="item-payment">
+  <option value="PayPal">PayPal</option>
+  <option value="Transferencia Bancaria">Transferencia Bancaria</option>
+  </select>
+</div>
+<div class="form-group">
+  <label for="item-budget">Presupuesto disponible</label>
+  <input
+    type="number"
+    id="item-budget"
+    placeholder="Mínimo 200.000 COP"
+    min="0"
+  >
+</div>
+<div class="form-group">
+    <label for="item-deadline">Tiempo estimado de entrega</label>
+    <input type="text" id="item-deadline" placeholder="Ej: 3 días, 1 semana">
+  </div>
+    <div class="form-group">
+    <label for="item-language">Idioma principal</label>
+    <input type="text" id="item-language" placeholder="Español, Inglés...">
+  </div>
+  <div>
         <div class="form-actions">
           <button type="submit" class="btn btn-primary" id="submit-btn">
             Crear
           </button>
-          <button type="button" class="btn btn-secondary" id="cancel-btn" style="display: none;">
+          <button type="button" class="btn btn-secondary" id="cancel-btn">
             Cancelar
           </button>
+        </div>
         </div>
       </form>
     </section>
@@ -122,10 +146,10 @@
         <div class="filter-group">
           <label for="filter-status">Estado:</label>
           <select id="filter-status">
-            <option value="all">Todos</option>
+            <option value="all">Todos los Freelancers</option>
             <!-- TODO: Cambia los términos según tu dominio -->
-            <option value="active">Activos</option>
-            <option value="inactive">Inactivos</option>
+            <option value="active">Freelancers Activos</option>
+            <option value="inactive">Freelancers Inactivos</option>
           </select>
         </div>
 
@@ -134,10 +158,10 @@
           <select id="filter-category">
             <option value="all">Todas</option>
             <!-- TODO: Repite las mismas categorías del formulario -->
-            <option value="category1">Categoría 1</option>
-            <option value="category2">Categoría 2</option>
-            <option value="category3">Categoría 3</option>
-            <option value="other">Otro</option>
+              <option value="web">🌏 Desarrollo Web</option>
+              <option value="mobile">📱Desarrollo Movil</option>
+              <option value="desing">🖌️ Diseño</option>
+              <option value="other">📌 Otro</option>
           </select>
         </div>
 
@@ -145,18 +169,18 @@
           <label for="filter-priority">Prioridad:</label>
           <select id="filter-priority">
             <option value="all">Todas</option>
-            <option value="high">Alta</option>
-            <option value="medium">Media</option>
-            <option value="low">Baja</option>
+              <option value="low">🟩 Baja</option>
+              <option value="medium" selected>🟨 Media</option>
+              <option value="high">🟥 Alta</option>
           </select>
         </div>
 
         <div class="filter-group search-group">
-          <label for="search-input">Buscar:</label>
+          <label for="search-input">Buscar Freelancers:</label>
           <input
             type="text"
             id="search-input"
-            placeholder="Buscar elementos..."
+            placeholder="Buscar Freelancers..."
           >
         </div>
       </div>
@@ -166,9 +190,9 @@
     <section class="items-section">
       <div class="items-header">
         <!-- TODO: Cambia el título -->
-        <h2>📝 Lista de Elementos</h2>
+        <h2>👤 Lista de Freelancers</h2>
         <button class="btn btn-outline" id="clear-inactive">
-          🗑️ Limpiar Inactivos
+          🗑️ Limpiar Freelancers Inactivos
         </button>
       </div>
 
@@ -184,7 +208,7 @@
 
     <!-- Detailed Stats -->
     <section class="detailed-stats">
-      <h3>📊 Estadísticas Detalladas</h3>
+      <h3>📊 Estadísticas de Freelancers</h3>
       <div id="stats-details" class="stats-grid">
         <!-- Las estadísticas se renderizarán aquí con JavaScript -->
       </div>

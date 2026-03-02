@@ -1,6 +1,6 @@
 /**
  * ============================================
- * PROYECTO SEMANA 02 - GESTOR DE COLECCIÓN
+ * PROYECTO SEMANA 02 - PLATAFORMA DE FREELANCERS
  * Archivo inicial para el aprendiz
  * ============================================
  *
@@ -54,10 +54,9 @@ let editingItemId = null;
 // };
 
 const CATEGORIES = {
-  // TODO: Define las categorías de tu dominio
-  // category1: { name: 'Nombre en español', emoji: '🔹' },
-  // category2: { name: 'Nombre en español', emoji: '🔸' },
-  // category3: { name: 'Nombre en español', emoji: '🔷' },
+  web: { name: 'Desarrollo Web', emoji: '🌏' },
+  mobile: { name: 'Desarrollo Movil', emoji: '📱' },
+  desing: { name: 'Diseño', emoji: '🖌️' },
 };
 
 // Prioridades genéricas (adapta los nombres si es necesario)
@@ -75,7 +74,7 @@ const PRIORITIES = {
  * Carga los elementos desde LocalStorage
  * @returns {Array} Array de elementos guardados, o array vacío
  */
-const loadItems = () => {
+  // const loadItems = () => {
   // TODO: Implementa la carga desde localStorage
   // 1. Obtén el valor de localStorage con la key de tu dominio
   // 2. Si existe, usa JSON.parse() para convertirlo a array
@@ -87,20 +86,27 @@ const loadItems = () => {
   // return stored ? JSON.parse(stored) : [];
   // O más moderno:
   // return JSON.parse(localStorage.getItem('celestialBodies') ?? '[]');
+
+const loadItems = () => {
+  return JSON.parse(localStorage.getItem('freelancerItems') ?? '[]');
 };
 
 /**
  * Guarda los elementos en LocalStorage
  * @param {Array} items - Array de elementos a guardar
  */
-const saveItems = itemsToSave => {
+  // const saveItems = itemsToSave => {
   // TODO: Implementa el guardado en localStorage
   // 1. Usa JSON.stringify() para convertir el array a string
   // 2. Guarda con localStorage.setItem()
   //
   // EJEMPLO:
   // localStorage.setItem('celestialBodies', JSON.stringify(itemsToSave));
+
+const saveItems = itemsToSave => {
+  localStorage.setItem('freelancerItems', JSON.stringify(itemsToSave));
 };
+
 
 // ============================================
 // TODO 3: CRUD - CREAR ELEMENTO
