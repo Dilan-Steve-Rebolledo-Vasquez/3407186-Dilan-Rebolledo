@@ -150,10 +150,21 @@ const createItem = (itemData = {}) => {
   //   distance: itemData.distance ?? '',
   //   ...itemData
   // };
-  // const newItems = [...items, newItem];
-  // saveItems(newItems);
-  // return newItems;
+const newItem = {
+  id: Date.now(),
+  name: itemData.name ?? '',
+  description: itemData.description ?? '',
+  category: itemData.category ?? 'web',
+  priority: itemData.priority ?? 'medium',
+  active: true,
+  createdAt: new Date().toISOString(),
+  updatedAt: null,
+  ...itemData
 };
+const newItems = [...items, newItem];
+saveItems(newItems);
+return newItems;
+
 
 // ============================================
 // TODO 4: CRUD - ACTUALIZAR ELEMENTO
@@ -166,6 +177,14 @@ const createItem = (itemData = {}) => {
  * @returns {Array} Nuevo array con el elemento actualizado
  */
 const updateItem = (id, updates) => {
+  const updatedItems = items.map(item => 
+  item.id === id
+    ? { ...item, ...updates, updatedAt: new Date().toISOString() }
+    : item
+);
+
+saveItems(updatedItems);
+return updatedItems;
   // TODO: Implementa la actualización usando map
   // 1. Usa map para iterar sobre el array
   // 2. Si item.id === id, combina con spread: { ...item, ...updates, updatedAt: new Date().toISOString() }
@@ -183,6 +202,7 @@ const updateItem = (id, updates) => {
   // return updatedItems;
 };
 
+
 // ============================================
 // TODO 5: CRUD - ELIMINAR ELEMENTO
 // ============================================
@@ -193,6 +213,10 @@ const updateItem = (id, updates) => {
  * @returns {Array} Nuevo array sin el elemento eliminado
  */
 const deleteItem = id => {
+  const filteredItems = items.filter(item => item.id !== id);
+saveItems(filteredItems);
+return filteredItems;
+
   // TODO: Implementa la eliminación usando filter
   // 1. Usa filter para crear nuevo array excluyendo el elemento
   // 2. Guarda en localStorage
@@ -214,6 +238,11 @@ const deleteItem = id => {
  * @returns {Array} Nuevo array con el estado actualizado
  */
 const toggleItemActive = id => {
+  const updatedItems = items.map(item =>
+  item.id === id
+  ? { ...item, active: !item.active, updatedAt: new Date().toISOString() }
+  : item
+);
   // TODO: Implementa el toggle usando map
   // 1. Usa map para encontrar y actualizar el elemento
   // 2. Invierte el valor de 'active' con !item.active
@@ -235,6 +264,9 @@ const toggleItemActive = id => {
  * @returns {Array} Nuevo array solo con elementos activos
  */
 const clearInactive = () => {
+const activeItems = items.filter(item => item.active);
+saveItems(activeItems);
+return activeItems;
   // TODO: Implementa usando filter
   // const activeItems = items.filter(item => item.active);
   // saveItems(activeItems);
@@ -252,6 +284,10 @@ const clearInactive = () => {
  * @returns {Array} Elementos filtrados
  */
 const filterByStatus = (itemsToFilter, status = 'all') => {
+  if (status === 'all') return itemsToFilter;
+  if (status === 'active') return itemsToFilter.filter(item => item.active);
+  if (status === 'inactive') return itemsToFilter.filter(item => !item.active);
+  return itemsToFilter;
   // TODO: Implementa el filtro por estado
   // - 'all': retorna todos
   // - 'active': filtra donde active === true
@@ -271,6 +307,8 @@ const filterByStatus = (itemsToFilter, status = 'all') => {
  * @returns {Array} Elementos filtrados
  */
 const filterByCategory = (itemsToFilter, category = 'all') => {
+  if (category === 'all') return itemsToFilter;
+  return itemsToFilter.filter(item => item.category === category);
   // TODO: Implementa el filtro por categoría
   // if (category === 'all') return itemsToFilter;
   // return itemsToFilter.filter(item => item.category === category);
@@ -283,6 +321,8 @@ const filterByCategory = (itemsToFilter, category = 'all') => {
  * @returns {Array} Elementos filtrados
  */
 const filterByPriority = (itemsToFilter, priority = 'all') => {
+  if (priority === 'all') return itemsToFilter;
+return itemsToFilter.filter(item => item.priority === priority);
   // TODO: Similar a filterByCategory
 };
 
@@ -293,6 +333,12 @@ const filterByPriority = (itemsToFilter, priority = 'all') => {
  * @returns {Array} Elementos que coinciden
  */
 const searchItems = (itemsToFilter, query) => {
+  if (!query || query.trim() === '') return itemsToFilter;
+  const searchTerm = query.toLowerCase();
+  return itemsToFilter.filter(item =>
+  item.name.toLowerCase().includes(searchTerm) ||
+  (item.description ?? '').toLowerCase().includes(searchTerm)
+);
   // TODO: Implementa la búsqueda
   // 1. Si query está vacío, retorna todos
   // 2. Convierte query a minúsculas
@@ -315,6 +361,19 @@ const searchItems = (itemsToFilter, query) => {
  * @returns {Array} Elementos filtrados
  */
 const applyFilters = (itemsToFilter, filters = {}) => {
+const {
+  status = 'all',
+  category = 'all',
+  priority = 'all',
+  search = ''
+} = filters;
+
+let result = filterByStatus(itemsToFilter, status);
+result = filterByCategory(result, category);
+result = filterByPriority(result, priority);
+result = searchItems(result, search);
+
+return result;
   // TODO: Implementa aplicación de filtros encadenada
   // Usa destructuring con default values para los filtros
   //
@@ -344,6 +403,21 @@ const applyFilters = (itemsToFilter, filters = {}) => {
  * @returns {Object} Objeto con estadísticas
  */
 const getStats = (itemsToAnalyze = []) => {
+  const total = itemsToAnalyze.length;
+  const active = itemsToAnalyze.filter(item => item.active).length;
+  const inactive = total - active;
+
+  const byCategory = itemsToAnalyze.reduce((acc, item) => {
+    acc[item.category] = (acc[item.category] ?? 0) + 1;
+    return acc;
+  }, {});
+
+  const byPriority = itemsToAnalyze.reduce((acc, item) => {
+    acc[item.priority] = (acc[item.priority] ?? 0) + 1;
+    return acc;
+  }, {});
+
+return { total, active, inactive, byCategory, byPriority };
   // TODO: Implementa el cálculo de estadísticas usando reduce
   // Retorna un objeto con:
   // - total: número total de elementos
@@ -405,6 +479,26 @@ const formatDate = dateString => {
  * @returns {String} HTML del elemento
  */
 const renderItem = item => {
+  const { id, name, description, category, priority, active, createdAt } = item;
+
+  return `
+    <div class="item ${active ? '' : 'inactive'} priority-${priority}" data-item-id="${id}">
+      <input type="checkbox" class="item-checkbox" ${active ? 'checked' : ''}>
+      <div class="item-content">
+        <h3 class="item-name">${name}</h3>
+        ${description ? `<p class="item-description">${description}</p>` : ''}
+        <div class="item-meta">
+          <span class="badge">${getCategoryEmoji(category)} ${CATEGORIES[category]?.name ?? category}</span>
+          <span class="badge">${PRIORITIES[priority]?.name ?? priority}</span>
+          <span class="item-date">📅 ${formatDate(createdAt)}</span>
+        </div>
+      </div>
+      <div class="item-actions">
+        <button class="btn-edit" title="Editar">✏️</button>
+        <button class="btn-delete" title="Eliminar">🗑️</button>
+      </div>
+    </div>
+  `;
   // TODO: Implementa el renderizado usando template literals
   // 1. Usa destructuring para extraer propiedades
   // 2. Usa template literals para el HTML
@@ -446,6 +540,14 @@ const renderItems = itemsToRender => {
   const itemList = document.getElementById('item-list');
   const emptyState = document.getElementById('empty-state');
 
+    if (itemsToRender.length === 0) {
+    itemList.innerHTML = '';
+    emptyState.style.display = 'block';
+  } else {
+    emptyState.style.display = 'none';
+    itemList.innerHTML = itemsToRender.map(renderItem).join('');
+  }
+};
   // TODO: Implementa el renderizado de la lista
   // 1. Si no hay elementos, muestra el empty state
   // 2. Si hay elementos:
@@ -468,6 +570,23 @@ const renderItems = itemsToRender => {
  * @param {Object} stats - Objeto con estadísticas
  */
 const renderStats = stats => {
+  document.getElementById('stat-total').textContent = stats.total;
+  document.getElementById('stat-active').textContent = stats.active;
+  document.getElementById('stat-inactive').textContent = stats.inactive;
+
+  const categoryStats = Object.entries(stats.byCategory)
+    .map(([cat, count]) => `${getCategoryEmoji(cat)} ${CATEGORIES[cat]?.name ?? cat}: ${count}`)
+    .join(' | ') || 'Ninguna categoría';
+
+  const priorityStats = Object.entries(stats.byPriority)
+    .map(([pri, count]) => `${PRIORITIES[pri]?.name ?? pri}: ${count}`)
+    .join(' | ') || 'Ninguna prioridad';
+
+  document.getElementById('stats-details').innerHTML = `
+    <p><strong>Categorías:</strong> ${categoryStats}</p>
+    <p><strong>Prioridades:</strong> ${priorityStats}</p>
+  `;  
+};
   // TODO: Actualiza los elementos del DOM con las estadísticas
   // Usa template literals para mostrar los números
   //
@@ -481,7 +600,7 @@ const renderStats = stats => {
   //   .map(([cat, count]) => `${getCategoryEmoji(cat)} ${CATEGORIES[cat]?.name ?? cat}: ${count}`)
   //   .join(' | ');
   // document.getElementById('stats-details').textContent = categoryStats;
-};
+
 
 // ============================================
 // TODO 11: EVENT HANDLERS
@@ -493,6 +612,32 @@ const renderStats = stats => {
  */
 const handleFormSubmit = e => {
   e.preventDefault();
+  const name = document.getElementById('item-name').value.trim();
+  const description = document.getElementById('item-description').value.trim();
+  const category = document.getElementById('item-category').value;
+  const priority = document.getElementById('item-priority').value;
+  const payment = document.getElementById('item-payment').value;
+  const budget = parseFloat(document.getElementById('item-budget').value) || 0;
+  const deadline = document.getElementById('item-deadline').value.trim();
+  const language = document.getElementById('item-language').value.trim();
+
+    if (!name) {
+    alert('El nombre es obligatorio');
+    return;
+    }
+
+    const itemData = { name, description, category, priority, payment, budget, deadline, language };
+
+    if (editingItemId) {
+    items = updateItem(editingItemId, itemData);
+  } else {
+    items = createItem(itemData);
+  }
+
+  resetForm();
+  renderItems(applyCurrentFilters());
+  renderStats(getStats(items));
+
 
   // TODO: Obtén los valores del formulario
   // Adapta los campos a tu dominio
@@ -532,6 +677,10 @@ const handleFormSubmit = e => {
  * @param {Number} itemId - ID del elemento
  */
 const handleItemToggle = itemId => {
+  items = toggleItemActive(itemId);
+  renderItems(applyCurrentFilters());
+  renderStats(getStats(items));
+
   // TODO: Implementa el toggle
   // items = toggleItemActive(itemId);
   // renderItems(applyCurrentFilters());
@@ -543,6 +692,23 @@ const handleItemToggle = itemId => {
  * @param {Number} itemId - ID del elemento a editar
  */
 const handleItemEdit = itemId => {
+  const itemToEdit = items.find(item => item.id === itemId);
+  if (!itemToEdit) return;
+
+  document.getElementById('item-name').value = itemToEdit.name;
+  document.getElementById('item-description').value = itemToEdit.description ?? '';
+  document.getElementById('item-category').value = itemToEdit.category;
+  document.getElementById('item-priority').value = itemToEdit.priority;
+  document.getElementById('item-payment').value = itemToEdit.payment ?? '';
+  document.getElementById('item-budget').value = itemToEdit.budget ?? '';
+  document.getElementById('item-deadline').value = itemToEdit.deadline ?? '';
+  document.getElementById('item-language').value = itemToEdit.language ?? '';
+
+  document.getElementById('form-title').textContent = '✏️ Editar Proyecto';
+  document.getElementById('submit-btn').textContent = 'Actualizar';
+  document.getElementById('cancel-btn').style.display = 'inline-block';
+
+  editingItemId = itemId;
   // TODO: Implementa la edición
   // 1. Encuentra el elemento con find()
   // 2. Rellena el formulario con sus datos
@@ -572,6 +738,10 @@ const handleItemEdit = itemId => {
  * @param {Number} itemId - ID del elemento a eliminar
  */
 const handleItemDelete = itemId => {
+  if (!confirm('¿Estás seguro de que deseas eliminar este proyecto?')) return;
+  items = deleteItem(itemId);
+  renderItems(applyCurrentFilters());
+  renderStats(getStats(items));
   // TODO: Implementa la eliminación con confirmación
   // if (!confirm('¿Estás seguro de que deseas eliminar este elemento?')) return;
   // items = deleteItem(itemId);
@@ -584,6 +754,12 @@ const handleItemDelete = itemId => {
  * @returns {Object} Objeto con los valores de los filtros
  */
 const getCurrentFilters = () => {
+  return {
+    status: document.getElementById('filter-status').value,
+    category: document.getElementById('filter-category').value,
+    priority: document.getElementById('filter-priority').value,
+    search: document.getElementById('search-input').value
+  };
   // TODO: Retorna un objeto con los valores actuales de los filtros
   // return {
   //   status: document.getElementById('filter-status').value,
@@ -606,6 +782,8 @@ const applyCurrentFilters = () => {
  * Maneja cambios en los filtros
  */
 const handleFilterChange = () => {
+  const filteredItems = applyCurrentFilters();
+  renderItems(filteredItems);
   // TODO: Aplica filtros y re-renderiza
   // const filteredItems = applyCurrentFilters();
   // renderItems(filteredItems);
@@ -615,6 +793,11 @@ const handleFilterChange = () => {
  * Resetea el formulario a su estado inicial
  */
 const resetForm = () => {
+  document.getElementById('item-form').reset();
+  document.getElementById('form-title').textContent = '➕ Nuevo Proyecto';
+  document.getElementById('submit-btn').textContent = 'Crear';
+  document.getElementById('cancel-btn').style.display = 'none';
+  editingItemId = null;
   // TODO: Limpia el formulario
   // document.getElementById('item-form').reset();
   // document.getElementById('form-title').textContent = '➕ Nuevo Elemento';
@@ -631,6 +814,37 @@ const resetForm = () => {
  * Adjunta todos los event listeners necesarios
  */
 const attachEventListeners = () => {
+  document.getElementById('item-form').addEventListener('submit', handleFormSubmit);
+
+  document.getElementById('cancel-btn').addEventListener('click', resetForm);
+
+  document.getElementById('filter-status').addEventListener('change', handleFilterChange);
+  document.getElementById('filter-category').addEventListener('change', handleFilterChange);
+  document.getElementById('filter-priority').addEventListener('change', handleFilterChange);
+  document.getElementById('search-input').addEventListener('input', handleFilterChange);
+
+  document.getElementById('clear-inactive').addEventListener('click', () => {
+  if (confirm('¿Eliminar todos los proyectos inactivos?')) {
+    items = clearInactive();
+    renderItems(applyCurrentFilters());
+    renderStats(getStats(items));
+  }
+  });
+
+  document.getElementById('item-list').addEventListener('click', e => {
+    const itemElement = e.target.closest('.item');
+    if (!itemElement) return;
+
+    const itemId = parseInt(itemElement.dataset.itemId);
+
+    if (e.target.classList.contains('item-checkbox')) {
+      handleItemToggle(itemId);
+    } else if (e.target.classList.contains('btn-edit')) {
+      handleItemEdit(itemId);
+    } else if (e.target.classList.contains('btn-delete')) {
+      handleItemDelete(itemId);
+    }
+  });
   // TODO: Form submit
   // document.getElementById('item-form').addEventListener('submit', handleFormSubmit);
 
@@ -677,6 +891,12 @@ const attachEventListeners = () => {
  * Inicializa la aplicación
  */
 const init = () => {
+  items = loadItems();
+  renderItems(items);
+  renderStats(getStats(items));
+  attachEventListeners();
+  console.log('✅ Aplicación inicializada correctamente');
+  
   // TODO: Implementa la inicialización
   // 1. Carga los elementos desde localStorage
   // 2. Renderiza la lista
