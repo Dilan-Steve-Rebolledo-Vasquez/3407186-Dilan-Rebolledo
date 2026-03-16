@@ -111,8 +111,9 @@ console.log("--- Conversiones ---");
 // TODO: Agrega tu conversión aquí
 
 const paymentAsText = String(averageProjectPayment);
+
 console.log("Pago como texto:", paymentAsText);
-console.log("Tipo convertido:", typeof paymentAsText);
+console.log("typeof convertido:", typeof paymentAsText);
 
 
 // ============================================
@@ -127,7 +128,6 @@ console.log("--- Valor nulo ---");
 // console.log("¿Es null?:", pendingValue === null);    // true
 console.log("Valor pendiente:", currentProject);
 // TODO: Agrega typeof y la verificación === null
-console.log(`Proyecto Actual: ${currentProject}`);
 console.log("typeof null:", typeof currentProject);
 console.log("¿Es null?:", currentProject === null);
 
