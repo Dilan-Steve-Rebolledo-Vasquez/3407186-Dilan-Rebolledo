@@ -21,29 +21,29 @@
 // ============================================
 
 // TODO: Define el nombre de tu dominio
-const DOMAIN_NAME = "Mi Dominio";
+const DOMAIN_NAME = "Plataforma de Freelancers";
 
 // TODO: Define el nombre de la entidad principal
 // Inclúyelo con espacios y mayúsculas/minúsculas
 // para poder aplicar transformaciones después
-const rawEntityName = "  nombre de la entidad  ";
+const rawEntityName = "  FreeLix  ";
 
 // TODO: Define una categoría o tipo (string)
-const entityCategory = "Categoría del elemento";
+const entityCategory = "Plataforma de Talento Digital";
 
 // TODO: Define un código identificador (string)
 // Elige un prefijo coherente con tu dominio
-const entityCode = "COD-001";
+const entityCode = "F433";
 
 // TODO: Define una descripción corta (string)
 // Debe contener varias palabras para usar includes/slice
-const entityDescription = "Descripción interesante de la entidad del dominio asignado.";
+const entityDescription = "Nuestra plataforma conecta a empresas y profesionales independientes de manera ágil y segura. Aquí, los freelancers encuentran proyectos que se ajustan a sus habilidades y pasión, mientras que las empresas acceden al talento adecuado para llevar sus ideas al siguiente nivel. Todo en un solo lugar: rápido, confiable y transparente.";
 
 // TODO: Define un dato numérico relevante (number)
-const mainValue = 0;
+const allFreeLancer = 12;
 
 // TODO: Define un estado booleano
-const isActive = true;
+const isFreeLancerActive = true;
 
 
 // ============================================
@@ -61,7 +61,7 @@ const entityNameLower = entityName.toLowerCase();
 
 // TODO: Extrae las primeras letras del código con slice()
 // para usarlas como prefijo de referencia
-const codePrefix = entityCode.slice(0, 3);
+const codePrefix = entityCode.slice(0, 2);
 
 
 // ============================================
@@ -74,11 +74,11 @@ const hasValidPrefix = entityCode.startsWith(codePrefix);
 
 // TODO: Verifica si la descripción contiene una palabra clave
 // Usa includes() con una palabra importante de tu dominio
-const descriptionIsRelevant = entityDescription.includes("dominio");
+const descriptionIsRelevant = entityDescription.includes("Plataforma de Freelancers");
 
 // TODO: Verifica si el código termina con los dígitos
 // Usa endsWith() con algo coherente de tu dominio
-const hasValidSuffix = entityCode.endsWith("001");
+const hasValidSuffix = entityCode.endsWith("33");
 
 
 // ============================================
@@ -98,8 +98,8 @@ Nombre:      ${entityNameUpper}
 Categoría:   ${entityCategory}
 Código:      ${entityCode}
 Prefijo:     ${codePrefix}
-Valor:       ${mainValue}
-Estado:      ${isActive ? "Activo" : "Inactivo"}
+Valor:       ${allFreeLancer}
+Estado:      ${isFreeLancerActive ? "Activo" : "Inactivo"}
 
 ${subSeparator}
 Descripción:
@@ -109,7 +109,6 @@ ${separator}
 
 console.log(mainCard);
 
-
 // ============================================
 // SECCIÓN 5: Validaciones
 // ============================================
@@ -117,8 +116,8 @@ console.log(mainCard);
 console.log("--- Validaciones ---");
 // TODO: Muestra los resultados de las validaciones con template literals
 console.log(`¿Código empieza con '${codePrefix}'?: ${hasValidPrefix}`);
-console.log(`¿Descripción contiene 'dominio'?: ${descriptionIsRelevant}`);
-console.log(`¿Código termina con '001'?: ${hasValidSuffix}`);
+console.log(`¿Descripción contiene 'freelancers'?: ${descriptionIsRelevant}`);
+console.log(`¿Código termina con '33'?: ${hasValidSuffix}`);
 console.log("");
 
 
