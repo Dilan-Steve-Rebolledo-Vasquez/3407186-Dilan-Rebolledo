@@ -20,11 +20,15 @@
 // - Un libro, medicamento, miembro, estudiante, producto, etc.
 // - Incluye: nombre, estado, valor numérico, tipo (string), y alguna propiedad opcional
 
-const elementName = null;           // TODO: nombre del elemento (string)
-const elementStatus = null;         // TODO: estado actual (string: "active", "inactive", etc.)
-const elementValue = null;          // TODO: valor numérico para clasificar (ocupación, stock, puntaje…)
-const elementType = null;           // TODO: tipo o categoría (string)
-const elementInfo = null;           // TODO: objeto con información adicional opcional (puede ser null)
+const elementName = "FreeLix";           // TODO: nombre del elemento (string)
+const elementStatus = "Active";         // TODO: estado actual (string: "active", "inactive", etc.)
+const elementValue = 12;          // TODO: valor numérico para clasificar (ocupación, stock, puntaje…)
+const elementType = "Plataform";           // TODO: tipo o categoría (string)
+const elementInfo = {
+description: "Plataforma de freelancers",
+users: 1200,
+detail: "Conecta talento con empresas"
+};          // TODO: objeto con información adicional opcional (puede ser null)
 
 // ============================================
 // SECCIÓN 2: Clasificación con if / else if / else
@@ -41,7 +45,15 @@ const elementInfo = null;           // TODO: objeto con información adicional o
 //   classification = "...";
 // }
 
-let classification = "Sin clasificar"; // TODO: implementar if/else if/else
+let classification;
+
+if (elementValue >= 20) {
+classification = "Alta demanda";
+} else if (elementValue >= 10) {
+classification = "Demanda media";
+} else {
+classification = "Baja demanda";
+} // TODO: implementar if/else if/else
 
 // ============================================
 // SECCIÓN 3: Estado binario con operador ternario
@@ -50,7 +62,7 @@ let classification = "Sin clasificar"; // TODO: implementar if/else if/else
 // TODO: Usa el ternario para determinar un estado de dos opciones.
 // Ejemplo: const statusLabel = elementStatus === "active" ? "Activo" : "Inactivo";
 
-const statusLabel = ""; // TODO: implementar con ternario
+const statusLabel = elementStatus === "active" ? "Activo" : "Inactivo"; // TODO: implementar con ternario
 
 // ============================================
 // SECCIÓN 4: Tipo con switch
@@ -64,7 +76,21 @@ const statusLabel = ""; // TODO: implementar con ternario
 //   default: typeLabel = "Tipo desconocido";
 // }
 
-let typeLabel = "Sin tipo"; // TODO: implementar con switch
+let typeLabel;
+
+switch (elementType) {
+case "platform":
+    typeLabel = "Plataforma digital";
+    break;
+case "service":
+    typeLabel = "Servicio";
+    break;
+case "marketplace":
+    typeLabel = "Marketplace";
+    break;
+default:
+    typeLabel = "Tipo desconocido";
+} // TODO: implementar con switch
 
 // ============================================
 // SECCIÓN 5: Valor por defecto con ??
@@ -73,8 +99,8 @@ let typeLabel = "Sin tipo"; // TODO: implementar con switch
 // TODO: Usa ?? para obtener un valor de fallback cuando sea null o undefined.
 // Ejemplo: const displayName = elementName ?? "Sin nombre";
 
-const displayName = "";      // TODO: elementName ?? "Sin nombre"
-const infoDetail = "";       // TODO: elementInfo?.detail ?? "Sin información adicional"
+const displayName = elementName ?? "Sin nombre";     // TODO: elementName ?? "Sin nombre"
+const infoDetail = elementInfo?.detail ?? "Sin información adicional";      // TODO: elementInfo?.detail ?? "Sin información adicional"
 
 // ============================================
 // SECCIÓN 6: Acceso seguro con ?.
@@ -83,7 +109,7 @@ const infoDetail = "";       // TODO: elementInfo?.detail ?? "Sin información a
 // TODO: Accede de forma segura a una propiedad de elementInfo.
 // Ejemplo: const location = elementInfo?.location ?? "Ubicación no especificada";
 
-const safeProperty = ""; // TODO: elementInfo?.tuPropiedad ?? "valor por defecto"
+const safeProperty = elementInfo?.users ?? "No disponible"; // TODO: elementInfo?.tuPropiedad ?? "valor por defecto"
 
 // ============================================
 // SECCIÓN 7: Ficha de salida
@@ -93,12 +119,12 @@ const safeProperty = ""; // TODO: elementInfo?.tuPropiedad ?? "valor por defecto
 // Incluye todos los resultados de las secciones anteriores
 
 console.log("=".repeat(40));
-console.log("FICHA DE CLASIFICACIÓN");
+console.log("3407186 Plataforma de Freelancers");
 console.log("=".repeat(40));
-// TODO: console.log(`Nombre: ${displayName}`);
-// TODO: console.log(`Estado: ${statusLabel}`);
-// TODO: console.log(`Clasificación: ${classification}`);
-// TODO: console.log(`Tipo: ${typeLabel}`);
-// TODO: console.log(`Detalle: ${infoDetail}`);
-// TODO: console.log(`Propiedad adicional: ${safeProperty}`);
+console.log(`Nombre: ${displayName}`);
+console.log(`Estado: ${statusLabel}`);
+console.log(`Clasificación: ${classification}`);
+console.log(`Tipo: ${typeLabel}`);
+console.log(`Detalle: ${infoDetail}`);
+console.log(`Propiedad adicional: ${safeProperty}`);
 console.log("=".repeat(40));
