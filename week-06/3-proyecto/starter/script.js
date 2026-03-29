@@ -1,6 +1,6 @@
 // ============================================
 // PROYECTO SEMANA 06: Reporte con Bucles
-// Dominio: [tu dominio asignado]
+// Dominio: [Plataforma de Freelancers]
 // ============================================
 //
 // INSTRUCCIONES:
@@ -28,18 +28,24 @@
 // (ej: books, medicines, machines, dishes, patients...)
 const items = [
   // TODO: Agrega tus elementos aquí
-  // { name: "nombre del elemento", category: "categoría", value: 0 }
+  { name: "Diseño de logo", category: "diseño", value: 150000 },
+  { name: "Desarrollo web", category: "programación", value: 500000 },
+  { name: "Traducción inglés-español", category: "traducción", value: 80000 },
+  { name: "Edición de video", category: "audiovisual", value: 200000 },
+  { name: "Ilustración digital", category: "diseño", value: 120000 },
+  { name: "App móvil", category: "programación", value: 800000 }
 ];
+
 
 // TODO: Define las categorías relevantes para tu dominio
 // (ej: para Biblioteca sería ["ficción", "no-ficción", "ciencia"])
-const categories = [
+const categories = ["diseño", "programación", "traducción", "audiovisual"
   // TODO: lista tus categorías
 ];
 
 // TODO: Define un nombre descriptivo para el valor numérico
 // (ej: "páginas", "stock", "horas de uso", "precio", "duración")
-const valueLabel = "valor"; // ← cambiar
+const valueLabel = "precio"; // ← cambiar
 
 // ============================================
 // SECCIÓN 2: Listado completo con for...of
@@ -54,7 +60,7 @@ let lineNumber = 0;
 for (const item of items) {
   lineNumber++;
   // TODO: Reemplaza este console.log con la información de tu dominio
-  console.log(`${lineNumber}. ${item.name}`);
+  console.log(`${lineNumber}. ${item.name} — ${item.category} — ${valueLabel}: $ ${item.value.toLocaleString("es-CO")} COP`);
 }
 
 console.log("");
@@ -72,9 +78,9 @@ for (const category of categories) {
   let count = 0;
 
   // TODO: Completa el bucle para contar items de esta categoría
-  // for (const item of items) {
-  //   if (item.category === category) count++;
-  // }
+  for (const item of items) {
+    if (item.category === category) count++;
+  }
 
   console.log(`${category}: ${count} elemento(s)`);
 }
@@ -91,14 +97,14 @@ let totalValue = 0;
 
 for (const item of items) {
   // TODO: Acumula el valor de cada elemento
-  // totalValue += item.value;
+  totalValue += item.value;
 }
 
 // TODO: Calcula el promedio
 const averageValue = items.length > 0 ? totalValue / items.length : 0;
 
-console.log(`Total ${valueLabel}: ${totalValue}`);
-console.log(`Promedio ${valueLabel}: ${averageValue.toFixed(1)}`);
+console.log(`Total ${valueLabel}: $ ${totalValue.toLocaleString("es-CO")} COP`);
+console.log(`Promedio ${valueLabel}: $ ${averageValue.toLocaleString("es-CO")} COP`);
 
 console.log("");
 
@@ -116,11 +122,16 @@ if (items.length > 0) {
   // TODO: Recorre con for...of y compara values para encontrar max y min
   for (const item of items) {
     // TODO: Comparar y actualizar maxItem y minItem
+    if (item.value > maxItem.value) {
+      maxItem = item;
   }
-
+    if (item.value < minItem.value) {
+      minItem = item;
+    }
+  }
   // TODO: Imprime los resultados
-  console.log(`Mayor ${valueLabel}: ${maxItem?.name} (${maxItem?.value})`);
-  console.log(`Menor ${valueLabel}: ${minItem?.name} (${minItem?.value})`);
+  console.log(`Mayor ${valueLabel}: ${maxItem?.name} ($ ${maxItem?.value.toLocaleString("es-CO")} COP)`);
+  console.log(`Menor ${valueLabel}: ${minItem?.name} ($ ${minItem?.value.toLocaleString("es-CO")} COP)`);
 }
 
 console.log("");
@@ -137,8 +148,9 @@ for (let i = 0; i < items.length; i++) {
 
   // TODO: Determina si el item está sobre o bajo el promedio
   // Pista: usa el operador ternario o if/else
-  const comparison = ""; // TODO: "sobre el promedio" o "bajo el promedio"
-
+  const comparison = item.value >= averageValue // TODO: "sobre el promedio" o "bajo el promedio"
+    ? "sobre el promedio"
+    : "bajo el promedio";
   // TODO: Imprime la línea del reporte
   console.log(`${i + 1}. ${item.name} — ${comparison}`);
 }
