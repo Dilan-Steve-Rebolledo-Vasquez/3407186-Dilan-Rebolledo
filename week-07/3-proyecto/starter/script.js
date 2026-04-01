@@ -1,6 +1,6 @@
 // ============================================
 // PROYECTO SEMANA 07 — Librería de Funciones
-// Dominio: [Tu dominio asignado]
+// Dominio: [Plataforma de Freelancers]
 // ============================================
 
 // NOTA PARA EL APRENDIZ:
@@ -26,9 +26,9 @@
 // Ejemplo: const TAX_RATE = 0.19;
 //          const CURRENCY = "USD";
 //          const DOMAIN_NAME = "Mi Dominio";
-const DOMAIN_NAME = "Mi Dominio";
-const VALUE_LABEL = "valor"; // Ej: "precio", "cantidad", "duración"
-
+const DOMAIN_NAME = "Plataforma de Freelancers";
+const VALUE_LABEL = "Tarifa"; // Ej: "precio", "cantidad", "duración"
+const CURRENCY = "COP";
 // TODO: Define un array con al menos 5 elementos de tu dominio.
 // Cada elemento debe ser un objeto con propiedades relevantes.
 // Ejemplo (Biblioteca):
@@ -38,7 +38,12 @@ const VALUE_LABEL = "valor"; // Ej: "precio", "cantidad", "duración"
 //   ...
 // ];
 const items = [
-  // TODO: Agrega tus elementos aquí
+  { name: "Diseño de logo", category: "diseño", value: 150000, active: true },
+  { name: "Desarrollo web", category: "programación", value: 500000, active: true },
+  { name: "Traducción inglés-español", category: "traducción", value: 80000, active: true },
+  { name: "Edición de video", category: "audiovisual", value: 200000, active: true },
+  { name: "Ilustración digital", category: "diseño", value: 120000, active: true },
+  { name: "App móvil", category: "programación", value: 800000, active: true }
 ];
 
 // ============================================
@@ -57,12 +62,12 @@ const items = [
 // const formatItem = (medicine) =>
 //   `💊 ${medicine.name} — Stock: ${medicine.stock} — $${medicine.price}`;
 
-const formatItem = (item) => {
+const formatItem = (freelancer) => {
   // TODO: Implementar usando template literals
   // 1. Incluir el nombre del elemento
   // 2. Incluir la categoría o tipo
   // 3. Incluir el valor numérico relevante
-  return `${item.name}`; // TODO: Expandir este template
+  return `${freelancer.name} — ${freelancer.category} — ${CURRENCY} ${freelancer.value.toLocaleString("es-CO")}/h`; // TODO: Expandir este template
 };
 
 // ============================================
@@ -79,10 +84,12 @@ const formatItem = (item) => {
 // Ejemplo (Farmacia): calcular total de compra con descuento
 // const calculateValue = (price, quantity, discountPct = 0) =>
 //   +(price * quantity * (1 - discountPct / 100)).toFixed(2);
-
-const calculateValue = (baseValue, factor = 1) => {
+const PLATFORM_FEE = 0.10; // 10% comisión
+const calculateValue = (baseValue, hours = 1) => {
   // TODO: Implementar el cálculo relevante para tu dominio
-  return baseValue * factor;
+  const gross = baseValue * hours; // pago total
+  const net = gross * (1 - PLATFORM_FEE); // después de comisión
+  return Math.round(net);
 };
 
 // ============================================
@@ -101,9 +108,9 @@ const calculateValue = (baseValue, factor = 1) => {
 // Ejemplo (Gimnasio): verificar si el miembro está activo
 // const isValid = (member) => member.active === true;
 
-const isValid = (item) => {
+const isValid = (freelancer) => {
   // TODO: Implementar la condición de validez de tu dominio
-  return item.active === true;
+  return freelancer.active === true && freelancer.value > 0;
 };
 
 // ============================================
@@ -121,11 +128,11 @@ const isValid = (item) => {
 // const formatPrice = (price, currency = "USD", showTax = false) =>
 //   showTax ? `${currency} ${(price * 1.19).toFixed(2)}` : `${currency} ${price.toFixed(2)}`;
 
-const formatWithDefault = (value, label = VALUE_LABEL, currency = "") => {
+const formatWithDefault = (value, label = VALUE_LABEL, currency = CURRENCY) => {
   // TODO: Implementar con parámetros por defecto relevantes al dominio
   return currency
-    ? `${label}: ${currency} ${value}`
-    : `${label}: ${value}`;
+    ? `${label}: ${currency} ${value.toLocaleString("es-CO")}`
+    : `${label}: ${value.toLocaleString("es-CO")}`;
 };
 
 // ============================================
@@ -147,10 +154,10 @@ console.log(`${"═".repeat(45)}`);
 // TODO: Reemplaza este código de ejemplo con la implementación real
 
 if (items.length === 0) {
-  console.log("\n⚠️  No hay elementos. Agrega datos en la Sección 1.");
+  console.log("\n⚠️  No hay freelancers registrados.");
 } else {
   // --- Listado ---
-  console.log("\n📋 Listado:");
+  console.log("\n📋 Freelancers:");
   let lineNumber = 1;
   for (const item of items) {
     // TODO: Usa formatItem(item) para mostrar cada elemento
@@ -166,15 +173,17 @@ if (items.length === 0) {
       validCount++;
     }
   }
-  console.log(`\n✅ Elementos válidos: ${validCount} / ${items.length}`);
+  console.log(`\n✅ Freelancers activos: ${validCount} / ${items.length}`);
 
   // --- Cálculo ---
   let totalValue = 0;
   for (const item of items) {
     // TODO: Usa calculateValue() con las propiedades de tu item
+  if (isValid(item)) {
     totalValue += calculateValue(item.value ?? 0);
   }
-  console.log(formatWithDefault(totalValue, `Total ${VALUE_LABEL}`));
+}
+console.log(formatWithDefault(totalValue, `Total ${VALUE_LABEL}`));
 }
 
 console.log(`\n${"═".repeat(45)}\n`);
