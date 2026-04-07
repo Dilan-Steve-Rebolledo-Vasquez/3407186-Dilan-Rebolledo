@@ -17,8 +17,8 @@
 // ============================================
 
 // TODO: Renombrar con el nombre de tu dominio (en inglés, UPPER_SNAKE_CASE)
-const DOMAIN_NAME = "Mi Aplicación";
-const VALUE_LABEL = "elementos";
+const DOMAIN_NAME = "Plataforma de Freelancers";
+const VALUE_LABEL = "Freelancers";
 
 // TODO: Ajustar al límite razonable para tu dominio
 // Usa separadores numéricos (ES2021): 1_000, 10_000
@@ -44,30 +44,14 @@ const MAX_ITEMS = 1_000;
 
 const items = [
   // TODO: Reemplazar con objetos de tu dominio
-  {
-    id: 1,
-    name: "Elemento 1",
-    value: 100,
-    active: true,
-    category: "tipo-a",
-  },
-  {
-    id: 2,
-    name: "Elemento 2",
-    value: 200,
-    active: true,
-    category: "tipo-b",
-    notes: "Propiedad opcional de ejemplo",
-  },
-  {
-    id: 3,
-    name: "Elemento 3",
-    value: 150,
-    active: false,
-    category: "tipo-a",
-  },
-  // TODO: Agregar al menos 3 objetos más (mínimo 6 en total)
-];
+  { id: 1, name: "Juan Pérez", value: 1_200_000, active: true, skill: "Web", experience: "Senior" },
+  { id: 2, name: "Ana Gómez", value: 800_000, active: true, skill: "UX", experience: "Mid", remote: true },
+  { id: 3, name: "Carlos Ruiz", value: 1_500_000, active: false, skill: "Backend", experience: "Senior" },
+  { id: 4, name: "Laura Torres", value: 1_000_000, active: true, skill: "Marketing", experience: "Senior", remote: false },
+  { id: 5, name: "Pedro Díaz", value: 500_000, active: true, skill: "Soporte", experience: "Junior" },
+  { id: 6, name: "Sofía Martínez", value: 600_000, active: true, skill: "QA", experience: "Mid" }
+];// TODO: Agregar al menos 3 objetos más (mínimo 6 en total)
+
 
 // ============================================
 // SECCIÓN 3: Funciones CRUD (Semanas 07–08)
@@ -78,6 +62,10 @@ const items = [
  * @param {Object} item - El elemento a agregar
  */
 const addItem = (item) => {
+  if (items.length >= MAX_ITEMS) {
+    console.log(`Límite alcanzado: ${MAX_ITEMS} freelancers`);
+    return false;
+  }
   // TODO: Implementar
   // 1. Verificar que no supere MAX_ITEMS (usar items.length)
   // 2. Agregar el item al array con .push()
@@ -85,13 +73,13 @@ const addItem = (item) => {
 };
 
 /**
- * Busca un elemento por su id
+ * Busca un elemento por su id  
  * @param {number} id - El id a buscar
  * @returns {Object|undefined} - El elemento encontrado o undefined
  */
 const findById = (id) => {
   // TODO: Implementar usando .find()
-  return null;
+  return items.find(item => item.id === id);
 };
 
 /**
@@ -100,7 +88,7 @@ const findById = (id) => {
  */
 const getActive = () => {
   // TODO: Implementar usando .filter() con la propiedad booleana
-  return [];
+  return items.filter(item => item.active);
 };
 
 /**
@@ -111,7 +99,7 @@ const getActive = () => {
  */
 const filterByField = (field, value) => {
   // TODO: Implementar usando .filter()
-  return [];
+  return items.filter(item => item[field] === value);
 };
 
 // ============================================
@@ -129,7 +117,11 @@ const updateItem = (id, changes) => {
   // 1. Usar .map() para crear un nuevo array
   // 2. Para el item con el id buscado: retornar { ...item, ...changes }
   // 3. Para los demás: retornar el item sin cambios
-  return items.map((item) => item); // reemplazar esta línea
+  return items.map(item =>
+    item.id === id
+      ? { ...item, ...changes }
+      : item
+  ); // reemplazar esta línea
 };
 
 /**
@@ -138,11 +130,16 @@ const updateItem = (id, changes) => {
  * @returns {{ min: number, max: number, avg: number, total: number }}
  */
 const calculateStats = (field) => {
+  const values = items.map(i => i[field]);
+  const total = values.reduce((acc, val) => acc + val, 0);
+  const min = Math.min(...values);
+  const max = Math.max(...values);
+  const avg = total / values.length;
   // TODO: Implementar
   // 1. Extraer los valores numéricos con Object.values o .map()
   // 2. Calcular: min (Math.min), max (Math.max), avg (sum/length), total (sum)
   // Pista: const values = items.map(i => i[field]);
-  return { min: 0, max: 0, avg: 0, total: 0 };
+  return { min, max, avg, total };
 };
 
 // ============================================
@@ -159,7 +156,13 @@ const formatItem = (item) => {
   // 1. Usar .padEnd() o .padStart() para alinear columnas
   // 2. Usar ?? y ?. para propiedades opcionales
   // 3. Retornar string (NO hacer console.log aquí)
-  return `[${item.id}] ${item.name}`;
+  return `[${item.id.toString().padStart(2)}] `
+    + `${item.name.padEnd(20)} | `
+    + `${item.skill.padEnd(10)} | `
+    + `${item.experience.padEnd(6)} | `
+    + `${item.value.toLocaleString("es-CO", { style: "currency", currency: "COP", minimumFractionDigits: 0 }).padStart(15)} | `
+    + `${item.active ? "Activo" : "Inactivo"} | `
+    + `${item.remote ?? "N/A"}`;
 };
 
 /**
@@ -177,6 +180,21 @@ const buildReport = () => {
   console.log(`Reporte de ${DOMAIN_NAME}`);
   console.log("=".repeat(40));
   items.forEach((item) => console.log(formatItem(item)));
+    const active = getActive();
+  console.log(`\nActivos: ${active.length}`);
+  console.log(`Inactivos: ${items.length - active.length}`);
+  const stats = calculateStats("value");
+  console.log("\n💰 Estadísticas:");
+  console.log(`Min: ${stats.min.toLocaleString("es-CO", { style: "currency", currency: "COP",      minimumFractionDigits: 0 })}`);
+  console.log(`Max: ${stats.max.toLocaleString("es-CO", { style: "currency", currency: "COP", minimumFractionDigits: 0 })}`);
+  console.log(`Promedio: ${stats.avg.toLocaleString("es-CO", { style: "currency", currency: "COP", minimumFractionDigits: 0 })}`);
+  console.log(`Total: ${stats.total.toLocaleString("es-CO", { style: "currency", currency: "COP", minimumFractionDigits: 0 })}`);
+  console.log("\nPropiedades del primer elemento:");
+  Object.entries(items[0]).forEach(([key, value]) => {
+  console.log(`${key}: ${value}`);
+  });
+    console.log("\n" + "=".repeat(70));
+  console.log(`Total de ${VALUE_LABEL}: ${items.length}`);
 };
 
 // ============================================
@@ -187,10 +205,25 @@ const buildReport = () => {
 //
 
 console.log("=".repeat(40));
-console.log(`  ${DOMAIN_NAME.toUpperCase()}`);
+console.log(`  ${DOMAIN_NAME}`);
 console.log("=".repeat(40));
-console.log(`Total de ${VALUE_LABEL}: ${items.length} / ${MAX_ITEMS}`);
+console.log(`Total de ${VALUE_LABEL}: ${items.length} / ${MAX_ITEMS}\n`);
 console.log("");
+const found = findById(1);
+console.log("🔍 Encontrado:", found?.name ?? "no encontrado");
+const active = getActive();
+console.log(`✅ Activos: ${active.length}`);
+const stats = calculateStats("value");
+console.log(`💰 Promedio: ${stats.avg.toLocaleString("es-CO", { style: "currency", currency: "COP", minimumFractionDigits: 0 })}`);
+buildReport();
+addItem({
+  id: 10,
+  name: "Nuevo Freelancer",
+  value: 700_000,
+  active: true,
+  skill: "AI",
+  experience: "Mid"
+});
 
 // Paso 1: Buscar por id
 // const found = findById(1);
